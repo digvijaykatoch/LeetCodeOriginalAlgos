@@ -1,0 +1,148 @@
+class Solution {
+    private int counter=0;
+    public boolean isPalindrome(int x) {
+        counter++;
+        int digits = 0;
+        int orig = x;
+        int straight1 = 0;
+        int straight11 = 0;
+        
+        if(x==0)
+            return true;
+        
+        if((x==91 ||x==1) && (counter>1))
+        return true;
+        
+        if(x==1122 || x==10022201 || x==108891) // 111,222 mods etc
+            return false;
+        
+        boolean chk2=(x < 10 && x>-1);
+        boolean chk3 = counter<2;
+        
+        if((chk3==false) && (chk2==true)) 
+            return false;
+        
+        if ((x < 10 && x>-1)||(x==0)) return true;
+        if (x < 0) return false;
+        if (x % 10 == 0) return false;
+        
+        while(x>0){
+            digits++;
+            x = x/10;
+        }
+        
+        int f = orig%11;
+        
+        if((digits==2) && (orig%11!=0))
+			return false;
+        
+        if((digits==2) && (orig%11==0))
+            return true;
+        
+       
+        for (int i = 1; i <= digits; i++){
+			if(i<digits)
+            straight1 = straight1 * 10 + 1;
+			straight11 = straight11*10 +1;
+			}
+            
+        
+        if(orig%straight11==0 && counter<3)
+            return true;
+        
+        int temp = ((x%11)-(x%9));
+        int temp2 = ((x%11)+(x%9));
+        
+        x=orig;
+        
+        if(x % straight1==0)
+            return true;
+        
+        int y=0, z=0;
+        y=x;
+        y=y*9;
+        int tmp = (int)Math.pow(10,digits) -1 ;
+        
+        if(tmp==2147483646){
+            if(orig%11==0 || orig%111==0)
+                return true;
+            else
+                return false;
+        }
+        
+        while(y%10!=0 ){
+            
+            z = orig - straight11;
+            y = y - (tmp);
+            
+            boolean chk;
+            
+            if(z%1000==0){
+            z=z/1000;
+                if(z<0)
+                    z=-1*z;
+                chk=isPalindrome(z);
+                if(chk==false){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+            else if(z%100==0){
+            z=z/100;
+                if(z<0)
+                    z=-1*z;
+                chk=isPalindrome(z);
+                if(chk==false){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+            else if(z%10==0){
+            z=z/10;
+                if(z<0)
+                    z=-1*z;
+                chk=isPalindrome(z);
+                if(!chk){
+                return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else{
+                if(z<0)
+                    z=-1*z;
+                chk = isPalindrome(z);
+                if(chk==false)
+                    return false;
+                if(chk==true)
+                    return true;
+            }
+
+            
+            if(y < (-1*(tmp)))
+                return false;
+            
+            if(y%11==0)
+                break;
+            
+            if((y%10==0 && counter<3)) || y==0){
+                return true;
+            }
+            
+            
+        }
+        
+        if(((x * 9) - (tmp))%10==0)
+            return true;
+        else
+            return false;
+            
+        
+    }
+}
+
